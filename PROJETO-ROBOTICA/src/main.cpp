@@ -82,38 +82,41 @@ void setup()
 
 void loop()
 {
-    // if (digitalRead(ENTRADA_VN) == HIGH)
-    // {
-    //     digitalWrite(SAIDA_D21, HIGH);
-    //     delay(2000);
-    // }
-    // else
-    // {
-    //     digitalWrite(SAIDA_D21, LOW);
-    // }
+    if (digitalRead(ENTRADA_VN) == HIGH) // aciona o sensor metalico, ativando o separador
+    {
+        digitalWrite(SAIDA_D21, HIGH);
+        estadoAtual = ESTADO_3;
+    }
+    else
+    {
+        digitalWrite(SAIDA_D21, LOW);
+    }
+    if (digitalRead(ENTRADA_VN) == HIGH)
+    {
+        digitalWrite(SAIDA_D21, HIGH);
+        delay(2000);
+    }
+    else
+    {
+        digitalWrite(SAIDA_D21, LOW);
+    }
 
     Serial.println(digitalRead(ENTRADA_D34));
     switch (estadoAtual)
     {
     case ESTADO_1:
-        if (digitalRead(ENTRADA_VP) == HIGH)
+        if (digitalRead(ENTRADA_VP) == HIGH) // aciona a esteira, como o sensor inicial
         {
             digitalWrite(SAIDA_D22, HIGH);
             estadoAtual = ESTADO_2;
         }
         break;
     case ESTADO_2:
-        if (digitalRead(ENTRADA_VN) == HIGH)
+        if (digitalRead(ENTRADA_VN) == HIGH) // aciona o sensor metalico, ativando o separador
         {
             digitalWrite(SAIDA_D21, HIGH);
             estadoAtual = ESTADO_3;
         }
-        else
-        {
-            digitalWrite(SAIDA_D21, LOW);
-            estadoAtual = ESTADO_3;
-        }
-        break;
 
     case ESTADO_3:
         if (digitalRead(ENTRADA_D33) == HIGH) // aciona o sensor optico
@@ -139,9 +142,9 @@ void loop()
     case ESTADO_5:
         if (digitalRead(ENTRADA_D34) == LOW)
         {
+            digitalWrite(SAIDA_D21, LOW);
             digitalWrite(SAIDA_D22, LOW);
             digitalWrite(SAIDA_D23, LOW); // trava
-            digitalWrite(SAIDA_D21, LOW);
             estadoAtual = ESTADO_1;
         }
         break;
